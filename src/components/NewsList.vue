@@ -27,6 +27,11 @@
             </tr>
             </tbody>
         </table>
+
+        <el-pagination
+                layout="prev, pager, next"
+                :total="1000">
+        </el-pagination>
     </div>
 </template>
 
@@ -38,36 +43,7 @@
         },
         data(){
             return{
-                newsItem:[
-                    {
-                        "newsId" : 1,
-                        "newsTitle" : "新闻标题",
-                        "newsContent" : "新闻内容",
-                        "publishId" : "发布者id",
-                        "date" : "05-10"
-                    },
-                    {
-                        "newsId" : 2,
-                        "newsTitle" : "新闻标题",
-                        "newsContent" : "新闻内容",
-                        "publishId" : "发布者id",
-                        "date" : "05-10"
-                    },
-                    {
-                        "newsId" : 3,
-                        "newsTitle" : "新闻标题",
-                        "newsContent" : "新闻内容",
-                        "publishId" : "发布者id",
-                        "date" : "05-10"
-                    },
-                    {
-                        "newsId" : 4,
-                        "newsTitle" : "新闻标题",
-                        "newsContent" : "新闻内容",
-                        "publishId" : "发布者id",
-                        "date" : "05-10"
-                    },
-                ],
+                newsItem:[],
             }
         },
 
@@ -76,14 +52,14 @@
                 this.$router.push('/publishnews');
             },
             getData(){
-                // console.log(this.GLOBAL.BASE_URL);
+                var that = this;
                 this.$http({
                     method:'get',
                     url: this.GLOBAL.BASE_URL + 'news',
                 }).then(function(res){
                     console.log(res);
                     if(res.data.code == 0){
-                        this.newsItem = res.data.data;
+                        that.newsItem = res.data.data.news;
                     } else {
                         alert('获取newsItem失败1');
                     }
@@ -97,25 +73,26 @@
                 this.$router.push('/login');
             },
             delItem(index){
+                var that = this;
                 console.log(index);
-                this.$confirm('此操作将永久删除该新闻, 是否继续?', '提示', {
+                that.$confirm('此操作将永久删除该新闻, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$http({
+                    that.$http({
                         method:'get',
                         url: this.GLOBAL.BASE_URL + 'delete?newsId=' + index,
                     }).then(function(res){
                         console.log(res);
                         if(res.data.code == 0){
-                            this.$message({
+                            that.$message({
                                 type: 'success',
                                 message: '删除成功!'
                             });
-                            this.router.go(0);
+                            that.router.go(0);
                         } else {
-                            this.$message({
+                            that.$message({
                                 type: 'info',
                                 message: '删除失败!'
                             });
@@ -125,7 +102,7 @@
                         alert('获取newsItem失败2');
                     })
                 }).catch(() => {
-                    this.$message({
+                    that.$message({
                         type: 'info',
                         message: '已取消删除'
                     });

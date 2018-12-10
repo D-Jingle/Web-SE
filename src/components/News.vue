@@ -29,6 +29,8 @@
                 </template>
             </el-table-column>
         </el-table>
+
+
     </div>
 
 </template>
@@ -48,44 +50,14 @@
         },
         methods:{
             getData(){
-                // this.newsItem = [
-                //     {
-                //         "newsId" : 1,
-                //         "newsTitle" : "新闻标题1",
-                //         "newsContent" : "新闻内容",
-                //         "publishId" : "发布者id",
-                //         "date" : "05-10"
-                //     },
-                //     {
-                //         "newsId" : 2,
-                //         "newsTitle" : "新闻标题2",
-                //         "newsContent" : "新闻内容",
-                //         "publishId" : "发布者id",
-                //         "date" : "05-10"
-                //     },
-                //     {
-                //         "newsId" : 3,
-                //         "newsTitle" : "新闻标题3",
-                //         "newsContent" : "新闻内容",
-                //         "publishId" : "发布者id",
-                //         "date" : "05-10"
-                //     },
-                //     {
-                //         "newsId" : 4,
-                //         "newsTitle" : "新闻标题4",
-                //         "newsContent" : "新闻内容",
-                //         "publishId" : "发布者id",
-                //         "date" : "05-10"
-                //     },
-                // ];
+                let that = this;
                 this.$http({
                     method:'get',
-                    url: this.GLOBAL.BASE_URL + 'news?page=1',
+                    url: that.GLOBAL.BASE_URL + 'news?page=1',
                 }).then(function(res){
-                    console.log(res);
                     if(res.data.code == 0){
-                        this.newsItem = res.data.data;
-                        this.loading = false;
+                        that.newsItem = res.data.data.news;
+                        that.loading = false;
                     } else {
                         alert('获取newsItem失败1');
                     }

@@ -46,30 +46,26 @@
         },
         methods:{
             alert(){
-                if(this.content == '' || this.title == ''){
+                let that = this;
+                if(that.content == '' || that.title == ''){
                     this.$message.error('标题和内容都不能为空哦～');
                 } else {
-                    // this.$message({
-                    //     message: '修改成功',
-                    //     type: 'success'
-                    // });
-                    // this.$router.go(-1);
                     this.$http({
                         method:'get',
-                        url: this.GLOBAL.BASE_URL + 'alter',
+                        url: that.GLOBAL.BASE_URL + 'alter',
                         data:{
-                            newsId : 2,
-                            newsTitle : this.title,
-                            newsContent : this.content,
+                            newsId : that.newsId,
+                            newsTitle : that.title,
+                            newsContent : that.content,
                         }
                     }).then(function(res){
                         console.log(res);
                         if(res.data.code == 0){
-                            this.$message({
+                            that.$message({
                                 message: '修改成功',
                                 type: 'success'
                             });
-                            this.$router.go(-1);
+                            that.$router.go(-1);
                         } else {
                             alert('修改失败1');
                         }
@@ -80,25 +76,23 @@
                 }
             },
             getNews(){
+                let that = this;
                 this.newsId = this.$route.query.newsId;
-                console.log(this.$route.query.newsId);
-                this.title = '测试用题目啦啦啦啦啦啦符合服务费额我过分呀我发货';
-                this.content = '<h2>测试用</h2><br/><p>这是p段落啦啦啦</p>'
-                // this.$http({
-                //     method:'get',
-                //     url: this.GLOBAL.BASE_URL + 'news?newsId=' + this.newsId,
-                // }).then(function(res){
-                //     console.log(res);
-                //     if(res.data.code == 0){
-                //         this.title = res.data.data.newsTitle;
-                //         this.content = res.data.data.newsContent;
-                //     } else {
-                //         alert('获取newsItem失败1');
-                //     }
-                // }).catch(function(err){
-                //     console.log(err);
-                //     alert('获取newsItem失败2');
-                // })
+                this.$http({
+                    method:'get',
+                    url: that.GLOBAL.BASE_URL + 'news?newsId=' + that.newsId,
+                }).then(function(res){
+                    console.log(res);
+                    if(res.data.code == 0){
+                        that.title = res.data.data.newsTitle;
+                        that.content = res.data.data.newsContent;
+                    } else {
+                        alert('获取newsItem失败1');
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                    alert('获取newsItem失败2');
+                })
             }
         }
     }

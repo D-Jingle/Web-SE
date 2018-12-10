@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import global_ from './Global.vue';
 
 Vue.prototype.GLOBAL = global_;
-axios.defaults.baseURL = 'https://api.example.com';
+axios.defaults.baseURL = '';
 import axios from 'axios';
 Vue.prototype.$http = axios;
 
