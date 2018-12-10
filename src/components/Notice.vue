@@ -7,6 +7,7 @@
                 max-height="300"
                 fit
                 style="width: 100%"
+                v-loading="loading"
         >
             <el-table-column
                     height=""
@@ -39,7 +40,15 @@
         name: "Notice",
         data() {
             return {
-                tableData: [
+                tableData: [],
+                loading : true
+            }
+        },
+        created(){
+            var that = this;
+            setTimeout(function (){
+                that.loading = false;
+                that.tableData = [
                     {
                         date: '05-02',
                         title: '信息学院举办网络安全科普报告会',
@@ -185,8 +194,8 @@
                         '\n' +
                         '\n',
                         publisher:'信息学院软件工程专业'
-                    }]
-            }
+                    }];
+            },1000);
         },
         methods:{
             handleEdit(index,row){

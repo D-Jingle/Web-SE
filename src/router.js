@@ -11,6 +11,9 @@ import Cs from './views/Cs'
 import Notice from './views/Notice'
 import News from './views/News'
 import Login from './views/Login'
+import Admin from './views/Admin'
+import Edit from './views/Edit'
+import PublishNews from './views/PublishNews'
 
 Vue.use(Router)
 
@@ -70,6 +73,21 @@ export default new Router({
           path:'/login',
           name:'login',
           component:Login
+      },
+      {
+          path:'/admin',
+          name:'admin',
+          component:Admin
+      },
+      {
+          path: '/edit',
+          name: 'edit',
+          component:Edit
+      },
+      {
+          path: '/publishnews',
+          name: 'publishnews',
+          component: PublishNews
       }
 
   ]
