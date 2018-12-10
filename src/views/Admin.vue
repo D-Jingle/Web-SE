@@ -1,26 +1,27 @@
 <template>
     <div class="container">
-        <LoginCom/>
+        <NewsList/>
     </div>
 </template>
 
 <script>
-    import LoginCom from '@/components/Login.vue'
+    import NewsList from '@/components/NewsList.vue'
     export default {
-        name: "Login",
+        name: "Admin",
         components:{
-            LoginCom
+            NewsList
         },
         beforeRouteEnter (to, from, next) {
             console.log(to,from);
             console.log(sessionStorage.getItem('username'),sessionStorage.getItem('password'));
             if(sessionStorage.getItem('username') == 'admin' && sessionStorage.getItem('password') == '123456'){
-                next({ path: '/Admin' });
-                console.log(to,from);
-            } else {
                 next();
+            } else {
+                next({ path: '/login' });
+                console.log(to,from);
             }
         },
+
     }
 </script>
 

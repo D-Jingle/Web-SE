@@ -35,7 +35,6 @@
                         讲师
                 </el-menu-item>
             </el-submenu>
-
             <el-menu-item index="7" style="float: right"><router-link to="/login">管理员登陆</router-link></el-menu-item>
         </el-menu>
     </div>
@@ -74,8 +73,4 @@ ul li{
     font-weight: bolder;
 
 }
-
-/*el-menu-item{*/
-    /*color: rgb(90,156,248);*/
-/*}*/
 </style>
