@@ -11,7 +11,7 @@
         </div>
 
         <div class="submit">
-            <el-button type="primary" class="submit-btn" @click="publish" plain>确认发布</el-button>
+            <el-button type="primary" class="submit-btn" @click="publish" plain :disabled="disabled" :loading="loading">{{message}}</el-button>
         </div>
     </div>
 </template>
@@ -27,6 +27,10 @@
             return{
                 content:'',
                 title:'',
+                disabled: false,
+                message: '确认发布',
+                loading : false
+
             }
         },
         beforeRouteEnter (to, from, next) {
@@ -41,37 +45,46 @@
         },
         methods:{
             publish(){
+                var that = this;
+                that.message = '发布中...';
+                that.loading = true;
+                that.disabled = true;
                 if(this.title == '' || this.content == ''){
                     this.$message.error('标题和内容都不能为空哦～');
+                    that.disabled = false;
+                    that.loading = false;
+                    that.message = '点击发布';
                 } else {
+                    console.log(that.content);
                     this.$http({
-                        method: 'get',
-                        url: this.GLOBAL.BASE_URL + 'publish',
+                        method: 'post',
+                        url: that.GLOBAL.BASE_URL + 'publish',
                         data: {
-                            newsTitle: this.title,
-                            newsContent: this.content,
-                            publishId: 'admin'
+                            newsTitle: that.title,
+                            newsContent: that.content,
+                            publishId: '0'
                         }
                     }).then(function (res) {
                         console.log(res);
                         if (res.data.code == 0) {
-                            this.$message({
+                            that.$message({
                                 message: '发布成功',
                                 type: 'success'
                             });
-                            this.$router.go(-1);
+                            that.$router.go(-1);
                         } else {
+                            that.disabled = false;
+                            that.loading = false;
+                            that.message = '点击发布';
                             alert('发布失败1');
                         }
                     }).catch(function (err) {
                         console.log(err);
-                        alert('获取发布信息失败2');
+                        that.disabled = false;
+                        that.message = '点击发布';
+                        that.loading = false;
+                        alert('发布失败2');
                     });
-                    // this.$message({
-                    //     message: '恭喜你，这是一条成功消息',
-                    //     type: 'success'
-                    // });
-                    // this.$router.go(-1);
                 }
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" v-loading="loading">
         <table>
             <thead>
             <tr>
@@ -30,8 +30,14 @@
 
         <el-pagination
                 layout="prev, pager, next"
-                :total="1000">
+                :page-size="5"
+                :total="pageList.totalSize"
+                @prev-click="getData"
+                @next-click="getData"
+                @current-change="getData"
+        >
         </el-pagination>
+
     </div>
 </template>
 
@@ -39,27 +45,43 @@
     export default {
         name: "NewsList",
         created(){
-            this.getData();
+            this.getData(1);
         },
         data(){
             return{
                 newsItem:[],
+                page : 1,
+                pageList: {},
+                loading: true,
             }
         },
+        mounted(){
 
+            // console.log(window.screen.availWidth,window.screen.availHeight);
+            // console.log(window);
+            let oAPP = document.getElementById('app');
+            oAPP.setAttribute('style','height:' + window.screen.availHeight + 'px;');
+            let oFooter = document.getElementsByClassName('footer')[0];
+            oFooter.setAttribute('style','position: absolute;bottom: 0;display: block;text-align: center;width: 100%;padding-right: 270px;box-sizing: border-box;');
+        },
         methods:{
             toPublish(){
                 this.$router.push('/publishnews');
             },
-            getData(){
-                var that = this;
+            getData(index){
+                let that = this;
+                console.log(index);
+                that.page = index;
+                that.loading = true;
                 this.$http({
                     method:'get',
-                    url: this.GLOBAL.BASE_URL + 'news',
+                    url: that.GLOBAL.BASE_URL + 'news?page=' + that.page,
                 }).then(function(res){
                     console.log(res);
                     if(res.data.code == 0){
+                        that.pageList = res.data.data.page;
                         that.newsItem = res.data.data.news;
+                        that.loading = false;
                     } else {
                         alert('获取newsItem失败1');
                     }
@@ -80,9 +102,12 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    that.$message({
+                        message: '删除中....'
+                    });
                     that.$http({
                         method:'get',
-                        url: this.GLOBAL.BASE_URL + 'delete?newsId=' + index,
+                        url: that.GLOBAL.BASE_URL + 'delete?newsId=' + index,
                     }).then(function(res){
                         console.log(res);
                         if(res.data.code == 0){
@@ -90,7 +115,7 @@
                                 type: 'success',
                                 message: '删除成功!'
                             });
-                            that.router.go(0);
+                            that.$router.push('/blank');
                         } else {
                             that.$message({
                                 type: 'info',
@@ -101,6 +126,7 @@
                         console.log(err);
                         alert('获取newsItem失败2');
                     })
+
                 }).catch(() => {
                     that.$message({
                         type: 'info',

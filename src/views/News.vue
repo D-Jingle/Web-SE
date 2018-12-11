@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="box">
-            <div class="left">
+            <div class="left" v-loading="loading2">
                 <table>
                     <thead>
                     <tr>
@@ -24,19 +24,19 @@
                     </tbody>
                 </table>
             </div>
-            <div class="right">
+            <div class="right" v-loading="loading1">
                 <div class="header">
                     <div class="header-title">
                         <h4>{{currentNews.newsTitle}}</h4>
                     </div>
                     <div class="date">
-                        2018-08-08
+                        {{currentNews.date}}
                     </div>
-                    <div class="artical">
+                    <div class="artical" id="artical">
                             {{currentNews.newsContent}}
-                        <div class="publish">
-                            <strong>发布者：&nbsp;</strong>admin
-                        </div>
+                    </div>
+                    <div class="publish">
+                        <strong>发布者：&nbsp;</strong>admin
                     </div>
                 </div>
             </div>
@@ -49,17 +49,17 @@
         name: "News",
         data(){
             return{
-                currentIndex: '',
+                currentIndex: '0',
                 newsArr:[],
-                currentNews:{}
+                currentNews:{},
+                loading1: true,
+                loading2: true,
             }
         },
         created(){
             console.log(this.$route.query.id);
             if(typeof this.$route.query.id == 'undefined'){
-                this.currentIndex = 0;
                 this.getDataAll();
-                this.currentNews = this.newsArr[this.currentIndex];
             } else {
                 this.getDataAll();
                 this.getDataSpeci(this.$route.query.id);
@@ -67,58 +67,22 @@
         },
         methods:{
             getDataAll(){
-                // this.newsArr = [
-                //     {
-                //         newsId : 1,
-                //         newsTitle : "新闻标题1",
-                //         newsContent : "新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容",
-                //         publishId : "发布者id",
-                //         date : "发布日期"
-                //     },
-                //     {
-                //         newsId : 2,
-                //         newsTitle : "新闻标题2",
-                //         newsContent : "新闻内容",
-                //         publishId : "发布者id",
-                //         date : "发布日期"
-                //     },
-                //     {
-                //         newsId : 3,
-                //         newsTitle : "新闻标题3",
-                //         newsContent : "新闻内容",
-                //         publishId : "发布者id",
-                //         date : "发布日期"
-                //     },
-                //     {
-                //         newsId : 4,
-                //         newsTitle : "新闻标题1",
-                //         newsContent : "新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容",
-                //         publishId : "发布者id",
-                //         date : "发布日期"
-                //     },
-                //     {
-                //         newsId : 5,
-                //         newsTitle : "新闻标题2",
-                //         newsContent : "新闻内容",
-                //         publishId : "发布者id",
-                //         date : "发布日期"
-                //     },
-                //     {
-                //         newsId : 6,
-                //         newsTitle : "新闻标题3",
-                //         newsContent : "新闻内容",
-                //         publishId : "发布者id",
-                //         date : "发布日期"
-                //     }
-                //
-                // ];
+                let that = this;
                 this.$http({
                     method: 'get',
-                    url: this.GLOBAL.BASE_URL + 'news',
+                    url: that.GLOBAL.BASE_URL + 'news',
                 }).then(function (res) {
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.newsArr = res.data.data;
+                        that.newsArr = res.data.data.news;
+                        if(typeof that.$route.query.id == 'undefined'){
+                            that.currentIndex = 0;
+                            let oArtical = document.getElementById('artical');
+                            oArtical.innerHTML = that.newsArr[that.currentIndex].newsContent;
+                            that.currentNews = that.newsArr[that.currentIndex];
+                            that.loading1 = false;
+                        }
+                        that.loading2 = false;
                     } else {
                         alert('获取全部新闻失败1');
                     }
@@ -128,21 +92,26 @@
                 });
             },
             getDataSpeci(newsId){
+                let that = this;
+                that.loading1 = true;
                 this.currentIndex = newsId;
                 // this.currentNews = this.newsArr[this.currentIndex];
                 this.$http({
                     method: 'get',
-                    url: this.GLOBAL.BASE_URL + 'news/newsId=' + this.currentIndex,
+                    url: that.GLOBAL.BASE_URL + 'news?newsId=' + that.currentIndex,
                 }).then(function (res) {
                     console.log(res);
                     if (res.data.code == 0) {
-                        this.currentNews = res.data.data;
+                        that.currentNews = res.data.data;
+                        let oArtical = document.getElementById('artical');
+                        oArtical.innerHTML = res.data.data.newsContent;
+                        that.loading1 = false;
                     } else {
-                        alert('获取全部新闻失败1');
+                        alert('获取新闻失败1');
                     }
                 }).catch(function (err) {
                     console.log(err);
-                    alert('获取全部新闻失败2');
+                    alert('获取新闻失败2');
                 });
             }
         }

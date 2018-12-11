@@ -3,6 +3,7 @@
       <NavMenu class="nav"/>
       <Carousel/>
       <router-view/>
+
       <div class="footer">
         Copyright © 2018-2018 东北林业大学信息与计算机工程学院 All Rights Reserved.
       </div>
@@ -16,7 +17,16 @@
       components: {
           Carousel,
           NavMenu,
-      }
+      },
+      mounted(){
+
+          // console.log(window.screen.availWidth,window.screen.availHeight);
+          // console.log(window);
+          let oAPP = document.getElementById('app');
+          oAPP.setAttribute('style','height:' + window.screen.availHeight + 'px;');
+          let oFooter = document.getElementsByClassName('footer')[0];
+          oFooter.setAttribute('style','position: absolute;bottom: 0;display: block;text-align: center;width: 100%;padding-right: 270px;box-sizing: border-box;');
+      },
   }
 </script>
 
@@ -30,6 +40,8 @@
   padding: 0px 135px;
   background-color: #eee;
   box-shadow: 5px 5px 5px #ccc;
+    position: relative;
+    overflow: hidden;
 }
 Carousel{
   height: 10rem;

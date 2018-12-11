@@ -14,6 +14,7 @@ import Login from './views/Login'
 import Admin from './views/Admin'
 import Edit from './views/Edit'
 import PublishNews from './views/PublishNews'
+import Blank from './views/Blank'
 
 Vue.use(Router)
 
@@ -88,6 +89,11 @@ export default new Router({
           path: '/publishnews',
           name: 'publishnews',
           component: PublishNews
+      },
+      {
+          path:'/blank',
+          name:'blank',
+          component: Blank
       }
 
   ]

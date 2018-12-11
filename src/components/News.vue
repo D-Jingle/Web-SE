@@ -41,12 +41,12 @@
         data() {
             return {
                 newsItem: [],
-                loading:true
+                loading: true
             }
         },
         created(){
             this.getData();
-            this.loading = false;
+            // this.loading = false;
         },
         methods:{
             getData(){

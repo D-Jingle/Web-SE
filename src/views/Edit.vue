@@ -4,15 +4,15 @@
             <h4>编辑新闻</h4>
         </div>
         <div class="title">
-            <el-input v-model="title" placeholder="请输入标题"></el-input>
+            <el-input v-model="title" placeholder="请输入标题" v-loading="loading"></el-input>
         </div>
 
         <div class="editor">
-            <VueEditor v-model="content"/>
+            <VueEditor v-loading="loading" v-model="content"/>
         </div>
 
         <div class="submit">
-            <el-button type="primary" class="submit-btn" @click="alert" plain>确认修改</el-button>
+            <el-button type="primary" class="submit-btn" @click="alert" plain :disabled="disabled" :loading="loading2">{{message}}</el-button>
         </div>
     </div>
 </template>
@@ -29,6 +29,9 @@
                 newsId : 0,
                 title: '',
                 content:'',
+                loading : true,
+                loading2 : false,
+                message: '确认发布',
             }
         },
         beforeRouteEnter (to, from, next) {
@@ -49,9 +52,12 @@
                 let that = this;
                 if(that.content == '' || that.title == ''){
                     this.$message.error('标题和内容都不能为空哦～');
+                    that.disabled = false;
+                    that.loading2 = false;
                 } else {
+
                     this.$http({
-                        method:'get',
+                        method:'post',
                         url: that.GLOBAL.BASE_URL + 'alter',
                         data:{
                             newsId : that.newsId,
@@ -86,6 +92,7 @@
                     if(res.data.code == 0){
                         that.title = res.data.data.newsTitle;
                         that.content = res.data.data.newsContent;
+                        that.loading= false;
                     } else {
                         alert('获取newsItem失败1');
                     }

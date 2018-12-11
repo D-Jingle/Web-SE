@@ -21,10 +21,15 @@
                 console.log(to,from);
             }
         },
+        // mounted(){
+        //     console.log(window.screen.height);
+        //     console.log(window);
+        //     let oContainer = document.getElementsByClassName('container')[0];
+        //     oContainer.setAttribute('style','height:' + window.screen.height + ';');
+        // }
 
     }
 </script>
 
 <style scoped>
-
 </style>
