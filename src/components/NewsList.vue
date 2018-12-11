@@ -64,6 +64,7 @@
             let oFooter = document.getElementsByClassName('footer')[0];
             oFooter.setAttribute('style','position: absolute;bottom: 0;display: block;text-align: center;width: 100%;padding-right: 270px;box-sizing: border-box;');
         },
+
         methods:{
             toPublish(){
                 this.$router.push('/publishnews');
@@ -126,7 +127,6 @@
                         console.log(err);
                         alert('获取newsItem失败2');
                     })
-
                 }).catch(() => {
                     that.$message({
                         type: 'info',

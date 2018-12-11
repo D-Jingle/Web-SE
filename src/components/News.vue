@@ -46,7 +46,6 @@
         },
         created(){
             this.getData();
-            // this.loading = false;
         },
         methods:{
             getData(){

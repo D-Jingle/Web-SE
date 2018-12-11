@@ -13,6 +13,7 @@
 
         <div class="submit">
             <el-button type="primary" class="submit-btn" @click="alert" plain :disabled="disabled" :loading="loading2">{{message}}</el-button>
+
         </div>
     </div>
 </template>
@@ -32,6 +33,7 @@
                 loading : true,
                 loading2 : false,
                 message: '确认发布',
+
             }
         },
         beforeRouteEnter (to, from, next) {
@@ -63,6 +65,7 @@
                             newsId : that.newsId,
                             newsTitle : that.title,
                             newsContent : that.content,
+
                         }
                     }).then(function(res){
                         console.log(res);
@@ -100,6 +103,7 @@
                     console.log(err);
                     alert('获取newsItem失败2');
                 })
+
             }
         }
     }

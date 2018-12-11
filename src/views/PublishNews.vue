@@ -30,7 +30,6 @@
                 disabled: false,
                 message: '确认发布',
                 loading : false
-
             }
         },
         beforeRouteEnter (to, from, next) {
