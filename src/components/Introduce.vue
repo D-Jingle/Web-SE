@@ -9,7 +9,7 @@
                 <el-button style="float: right; padding: 3px 0" type="text">了解更多</el-button>
             </div>
             <div class="text item">
-                简介啦啦啦啊
+                软件工程专业以IT业需求为导向，培养具有良好综合素质和职业道德，掌握扎实的基础理论和专业知识，具有软件分析、设计、开发、测试与管理能力，具备较强工程实践能力、技术创新能力和团队精神，能快速适应软件工程新技术发展并具有国际视野和国际竞争力的高级软件工程师。专业实施灵活的“211”人才培养模式
             </div>
         </el-card>
     </div>
@@ -30,6 +30,7 @@
     }
     .text {
         font-size: 14px;
+        text-align: justify;
     }
 
     .item {

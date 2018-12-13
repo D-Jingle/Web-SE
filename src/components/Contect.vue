@@ -9,7 +9,13 @@
                 <el-button style="float: right; padding: 3px 0" type="text"></el-button>
             </div>
             <div class="text item">
-                联系方式
+                <pre style="text-align: left">
+综合办公室：0451-82192243
+计算机等级考试办公室：0451-82192243
+教务工作办公室：0451-82192243
+科研工作办公室：0451-82192243
+                </pre>
+
             </div>
         </el-card>
     </div>

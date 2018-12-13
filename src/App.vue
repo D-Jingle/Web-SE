@@ -19,11 +19,8 @@
           NavMenu,
       },
       mounted(){
-
-          // console.log(window.screen.availWidth,window.screen.availHeight);
-          // console.log(window);
           let oAPP = document.getElementById('app');
-          oAPP.setAttribute('style','height:' + window.screen.availHeight + 'px;');
+          oAPP.setAttribute('style','min-height:' + window.screen.availHeight + 'px;padding-bottom: 36px;');
           let oFooter = document.getElementsByClassName('footer')[0];
           oFooter.setAttribute('style','position: absolute;bottom: 0;display: block;text-align: center;width: 100%;padding-right: 270px;box-sizing: border-box;');
       },
